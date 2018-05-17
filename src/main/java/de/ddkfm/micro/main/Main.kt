@@ -1,5 +1,10 @@
 package de.ddkfm.micro.main
 
+import de.ddkfm.micro.models.Processor
+import de.ddkfm.micro.ui.ProcessorFX
+import de.ddkfm.micro.util.MicroUtils
+import de.ddkfm.micro.util.ThemeUtils
+import de.ddkfm.micro.util.XMLLoader
 import javafx.application.Application
 import javafx.scene.image.Image
 import javafx.scene.layout.BorderPane
@@ -21,4 +26,12 @@ class Main: App(MainView::class) {
 
 class MainView : View() {
     override val root : BorderPane by fxml("/views/MainView.fxml")
+
+    var xmlLoader = XMLLoader(MicroUtils.getAttributesJSON())
+    var processor = Processor(xmlLoader.xmlElements)
+    var processorFX = ProcessorFX(xmlLoader.xmlElements, processor)
+    init {
+        root.stylesheets.add(ThemeUtils.getCSSFile().toString())
+        root.center = processorFX
+    }
 }
